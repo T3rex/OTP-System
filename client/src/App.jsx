@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-import { sendMail } from "./OTP_Generation";
 
 const OTP_INPUT_SIZE = 6;
 
@@ -11,9 +10,10 @@ function App(props) {
 
   const handleChange = (e, index) => {
     const value = e.target.value;
+
     if (isNaN(value)) return;
     if (value < 0 || value > 9) return;
-    console.log("handleChange");
+
     let arr = [...otpInput];
     arr[index] = value.slice(-1);
     setOtpInput(arr);
@@ -41,12 +41,12 @@ function App(props) {
   const verifyOTP = () => {
     console.log("verifyOTP");
   };
-  const sendOTP = () => {
-    //sendMail();
+
+  const sendOTP = async () => {
+    const data = await fetch("http://localhost:3001/send-otp");
+    const json = await data.json();
+    console.log(json);
   };
-  useEffect(() => {
-    refArr.current[0]?.focus();
-  }, []);
 
   return (
     <div className="App">

@@ -1,5 +1,5 @@
-import { createTransport } from "nodemailer";
-import dotenv from "dotenv";
+const { createTransport } = require("nodemailer");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const generateOTP = (length) => {
@@ -7,7 +7,7 @@ const generateOTP = (length) => {
   return otp;
 };
 
-export const sendMail = () => {
+const sendMail = () => {
   const transporter = createTransport({
     service: "gmail",
     auth: {
@@ -30,4 +30,9 @@ export const sendMail = () => {
       console.log("Email sent: " + info.response);
     }
   });
+};
+
+module.exports = {
+  generateOTP,
+  sendMail,
 };
