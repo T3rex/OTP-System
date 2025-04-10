@@ -1,10 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 
 const OTP_INPUT_SIZE = 6;
 
 function App() {
   const initialOTP = new Array(OTP_INPUT_SIZE).fill("");
   const [otpInput, setOtpInput] = useState(initialOTP);
+  const [verified, setVerified] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const refArr = useRef([]);
 
@@ -40,21 +41,42 @@ function App() {
 
   const verifyOTP = async () => {
     const otp = otpInput.join("");
-    const data = await fetch("http://localhost:3001/verify-otp", {
-      method: "GET",
+    const data = await fetch("http://localhost:3000/verify-otp", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        otp: otp,
       },
+      body: JSON.stringify({ otp }),
     });
     const json = await data.json();
-    alert(json.message);
+    if (json.success) {
+      setVerified("success");
+      setTimeout(() => {
+        setVerified("");
+      }, 5000);
+    } else {
+      setVerified("failed");
+      setTimeout(() => {
+        setVerified("");
+      }, 5000);
+    }
   };
 
   const sendOTP = async () => {
-    const data = await fetch("http://localhost:3001/send-otp");
+    const data = await fetch("http://localhost:3000/send-otp?length=6", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const json = await data.json();
-    setEmailSent(json.success);
+
+    if (json.success) {
+      setEmailSent(true);
+      setTimeout(() => {
+        setEmailSent(false);
+      }, 5000);
+    }
   };
 
   return (
@@ -78,7 +100,15 @@ function App() {
             />
           ))}
         </div>
-        {emailSent && <p>OTP sent succesfully</p>}
+        {emailSent && (
+          <p className="success-text">OTP has been sent to your email!</p>
+        )}
+        {verified === "success" && (
+          <p className="success-text">OTP verified successfully!</p>
+        )}
+        {verified === "failed" && (
+          <p className="error-text">OTP verification failed!</p>
+        )}
         <div className="otp-buttons">
           <button className="otp-button" type="button" onClick={verifyOTP}>
             Verify OTP

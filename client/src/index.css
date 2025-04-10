@@ -1,17 +1,32 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
 body {
-  height: 100vh;
-  width: 100vw;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-width: 100vw;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(to right, #e0f7fa, #e1bee7);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 }
 
 .app-wrapper {
   width: 100%;
   max-width: 600px;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   background-color: #ffffffcc;
   backdrop-filter: blur(10px);
   border-radius: 20px;
@@ -26,26 +41,28 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+
+.otp-title {
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+  color: #1f2937;
+  text-align: center;
 }
 
 .otp-box-container {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.otp-title {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #1f2937;
-}
-
 .otp-input {
-  width: 3.2rem;
-  height: 3.2rem;
-  font-size: 1.8rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  font-size: 1.5rem;
   text-align: center;
   border: 2px solid #cbd5e1;
   border-radius: 0.6rem;
@@ -64,11 +81,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 0.75rem;
+  width: 100%;
 }
 
 .otp-button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   font-size: 1rem;
   background-color: #4f46e5;
   color: white;
@@ -76,6 +94,7 @@ body {
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
+  width: 100%;
 }
 
 .otp-button:hover {
@@ -84,7 +103,73 @@ body {
 }
 
 @media (min-width: 480px) {
+  .app-wrapper {
+    padding: 3rem 2.5rem;
+    max-width: 100%;
+  }
+
   .otp-buttons {
+    margin-top: 0.5rem;
     flex-direction: row;
+  }
+
+  .otp-button {
+    width: auto;
+  }
+
+  .otp-input {
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 1.8rem;
+  }
+}
+
+.success-text {
+  color: #10b981; /* Tailwind's emerald-500 */
+  background-color: #d1fae5; /* light green background */
+  border: 1px solid #6ee7b7;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 1rem;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15);
+}
+
+.error-text {
+  color: #ef4444; /* Tailwind's red-500 */
+  background-color: #fee2e2; /* light red background */
+  border: 1px solid #fca5a5; /* soft red border */
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 1rem;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.15);
+}
+
+@media (max-width: 360px) {
+  .app-wrapper {
+    padding: 1rem 0.75rem;
+    max-width: 95%;
+  }
+
+  .otp-title {
+    font-size: 1.5rem;
+  }
+
+  .otp-input {
+    width: 1.4rem;
+    height: 1.4rem;
+    font-size: 1.3rem;
+  }
+
+  .otp-button {
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
   }
 }

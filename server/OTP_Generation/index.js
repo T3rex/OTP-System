@@ -9,23 +9,30 @@ const generateOTP = (length) => {
 };
 
 const storeOTP = async (otp) => {
-  await redisClient.set(`otp:${otp}`, otp, {
-    EX: 10,
-  });
+  try {
+    await redisClient.set(`otp:${otp}`, otp, {
+      EX: 300,
+    });
+    console.log("OTP stored successfully");
+    return true;
+  } catch (err) {
+    console.error("Error storing OTP:", err);
+    return false;
+  }
 };
 
 const sendOtpMail = (len) => {
   const transporter = createTransport({
     service: "gmail",
     auth: {
-      user: process.env.GMAIL_USERNAME,
+      user: process.env.GMAIL_SENDER_USERNAME,
       pass: process.env.APP_PASSWORD,
     },
   });
   const otp = generateOTP(len);
   const mailOptions = {
-    from: process.env.GMAIL_USERNAME,
-    to: process.env.GMAIL_USERNAME,
+    from: process.env.GMAIL_SENDER_USERNAME,
+    to: process.env.GMAIL_RECEIVER_USERNAME,
     subject: "Your OTP Code",
     text: `Your OTP is ${otp}`,
   };
@@ -33,30 +40,37 @@ const sendOtpMail = (len) => {
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, async (error, info) => {
       if (error) {
-        console.error(error);
-        reject(error);
-      } else {
+        console.error("Error sending email:", error);
+        return reject(error);
+      }
+
+      try {
         await storeOTP(otp);
-        console.log("Email sent: " + info.response);
+        console.log("Email sent:", info.response);
         resolve(info.response);
+      } catch (err) {
+        console.error("Error storing OTP:", err);
+        reject(err);
       }
     });
   });
 };
 
-const verifyOTP = (otp) => {
-  return new Promise((resolve, reject) => {
-    redisClient.get(`otp:${otp}`, (err, result) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else if (result) {
-        resolve(true);
-      } else {
-        resolve(false);
-      }
-    });
-  });
+const verifyOTP = async (otp) => {
+  try {
+    const storedOtp = await redisClient.get(`otp:${otp}`);
+    if (storedOtp) {
+      // redisClient.del(`otp:${otp}`);
+      console.log("OTP verified successfully");
+      return true;
+    } else {
+      console.log("Invalid OTP");
+      return false;
+    }
+  } catch (err) {
+    console.error("Error verifying OTP:", err);
+    return false;
+  }
 };
 
 module.exports = {
