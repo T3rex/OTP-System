@@ -7,6 +7,7 @@ function App() {
   const [otpInput, setOtpInput] = useState(initialOTP);
   const [verified, setVerified] = useState("");
   const [emailSent, setEmailSent] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const refArr = useRef([]);
 
   const handleChange = (e, index) => {
@@ -41,7 +42,7 @@ function App() {
 
   const verifyOTP = async () => {
     const otp = otpInput.join("");
-    const data = await fetch("http://localhost:3000/verify-otp", {
+    const data = await fetch("http://localhost:3008/verify-otp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +64,8 @@ function App() {
   };
 
   const sendOTP = async () => {
-    const data = await fetch("http://localhost:3000/send-otp?length=6", {
+    setSpinner(true);
+    const data = await fetch("http://localhost:3008/send-otp", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -72,6 +74,7 @@ function App() {
     const json = await data.json();
 
     if (json.success) {
+      setSpinner(false);
       setEmailSent(true);
       setTimeout(() => {
         setEmailSent(false);
@@ -100,6 +103,7 @@ function App() {
             />
           ))}
         </div>
+        {spinner && <span class="loader"></span>}
         {emailSent && (
           <p className="success-text">OTP has been sent to your email!</p>
         )}

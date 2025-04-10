@@ -8,21 +8,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const port = process.env.PORT_NUMBER || 3000;
+const port = parseInt(process.env.PORT_NUMBER) || 3008;
 
 app.get("/send-otp", async (req, res) => {
-  const len = parseInt(req.query.length) || 6;
+  const len = parseInt(req?.query?.length) || 6;
   try {
     await sendOtpMail(len);
-    res.status(200).json({
-      message: "OTP sent successfully",
-      success: true,
-    });
+    res.status(200).json({ message: "OTP sent successfully", success: true });
   } catch (error) {
-    res.status(500).json({
-      error: "Failed to send OTP",
-      success: false,
-    });
+    console.error("Error in sendOtpMail:", error);
+    res.status(500).json({ error: "Failed to send OTP", success: false });
   }
 });
 
@@ -43,4 +38,8 @@ app.post("/verify-otp", async (req, res) => {
   }
 });
 
-app.listen(port, () => console.log("Server running on port 3000"));
+try {
+  app.listen(port, () => console.log("Server running on port", port));
+} catch (error) {
+  console.error("Error starting server:", error);
+}

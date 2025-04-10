@@ -36,7 +36,6 @@ const sendOtpMail = (len) => {
     subject: "Your OTP Code",
     text: `Your OTP is ${otp}`,
   };
-
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, async (error, info) => {
       if (error) {
