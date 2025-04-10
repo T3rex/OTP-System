@@ -46,7 +46,7 @@ project-root/
 
 ```bash
 git clone https://github.com/your-username/otp-backend.git
-cd otp-backend
+cd otp-system/server
 ```
 
 2. **Install dependencies**
@@ -70,15 +70,16 @@ REDIS_URL=redis://localhost:6379
 > 💡 Use [App Passwords](https://support.google.com/accounts/answer/185833?hl=en) if 2FA is enabled on your Gmail account.
 
 4. **Start Redis server (if not already running)**
+   > 💡 Use [Redis documentation](https://redis.io/docs/latest/operate/redisinsight/install/install-on-docker/) for installing redis on docker.
 
 ```bash
-redis-server
+docker run -d --name redisinsight -p 5540:5540 redis/redisinsight:latest -v redisinsight:/data
 ```
 
 5. **Run the server**
 
 ```bash
-node server.js
+npm run dev
 ```
 
 ---
