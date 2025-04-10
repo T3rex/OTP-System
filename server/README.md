@@ -26,7 +26,7 @@ This project is a lightweight backend service built with Express.js that sends a
 
 ## 📁 Folder Structure
 
-\`\`\`
+```
 project-root/
 │
 ├── OTP_Generation/
@@ -36,7 +36,7 @@ project-root/
 ├── .env # Environment variables
 ├── server.js # Express server with API routes
 └── package.json
-\`\`\`
+```
 
 ---
 
@@ -44,42 +44,42 @@ project-root/
 
 1. **Clone the repo**
 
-\`\`\`bash
+```bash
 git clone https://github.com/your-username/otp-backend.git
 cd otp-backend
-\`\`\`
+```
 
 2. **Install dependencies**
 
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 3. **Configure environment variables**
 
-Create a \`.env\` file in the root:
+Create a `.env` file in the root:
 
-\`\`\`
+```
 PORT_NUMBER=3000
 GMAIL_SENDER_USERNAME=your-email@gmail.com
 GMAIL_RECEIVER_USERNAME=recipient@gmail.com
 APP_PASSWORD=your-app-password
 REDIS_URL=redis://localhost:6379
-\`\`\`
+```
 
 > 💡 Use [App Passwords](https://support.google.com/accounts/answer/185833?hl=en) if 2FA is enabled on your Gmail account.
 
 4. **Start Redis server (if not already running)**
 
-\`\`\`bash
+```bash
 redis-server
-\`\`\`
+```
 
 5. **Run the server**
 
-\`\`\`bash
+```bash
 node server.js
-\`\`\`
+```
 
 ---
 
@@ -87,55 +87,59 @@ node server.js
 
 ### 📤 Send OTP
 
-**GET** \`/send-otp?length=6\`
+**GET** `/send-otp?length=6`
 
 - Sends an OTP of specified length to the receiver email.
-- Default length: \`6\`
+- Default length: `6`
 
 **Response:**
-\`\`\`json
+
+```json
 {
-"message": "OTP sent successfully",
-"success": true
+  "message": "OTP sent successfully",
+  "success": true
 }
-\`\`\`
+```
 
 ---
 
 ### ✅ Verify OTP
 
-**POST** \`/verify-otp\`
+**POST** `/verify-otp`
 
 **Request Body:**
-\`\`\`json
+
+```json
 {
-"otp": "123456"
+  "otp": "123456"
 }
-\`\`\`
+```
 
 **Response (on success):**
-\`\`\`json
+
+```json
 {
-"message": "OTP verified successfully",
-"success": true
+  "message": "OTP verified successfully",
+  "success": true
 }
-\`\`\`
+```
 
 **Response (on failure):**
-\`\`\`json
+
+```json
 {
-"message": "Invalid OTP",
-"success": false
+  "message": "Invalid OTP",
+  "success": false
 }
-\`\`\`
+```
 
 ---
 
 ## 🧪 How It Works
 
-- A random OTP is generated using \`Math.random()\`
+- A random OTP is generated using `Math.random()`
 - The OTP is sent via email using Nodemailer (Gmail SMTP)
-- It is stored in Redis with a TTL of 5 minutes (\`EX: 300\`)
+- It is stored in Redis with a TTL of 5 minutes (`EX: 300`)
 - On verification, the OTP is checked against Redis
 - The OTP is **not** deleted upon verification (can be enhanced)
 
