@@ -1,10 +1,4 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-#root {
+body {
   height: 100vh;
   width: 100vw;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -14,32 +8,83 @@
   align-items: center;
 }
 
-.App {
+.app-wrapper {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  background-color: #ffffffcc;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.otp-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
 }
 
-.container {
+.otp-box-container {
   display: flex;
-  flex-direction: row;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
 }
 
-.box {
-  width: 50px;
-  height: 50px;
-  background-color: #f8f4f3;
-  border-radius: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  font-size: xxx-large;
+.otp-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1f2937;
+}
+
+.otp-input {
+  width: 3.2rem;
+  height: 3.2rem;
+  font-size: 1.8rem;
   text-align: center;
-  padding: 5px;
-  margin: 5px;
+  border: 2px solid #cbd5e1;
+  border-radius: 0.6rem;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.otp-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+.otp-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.otp-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.otp-button:hover {
+  background-color: #4338ca;
+  transform: translateY(-2px);
+}
+
+@media (min-width: 480px) {
+  .otp-buttons {
+    flex-direction: row;
+  }
 }
